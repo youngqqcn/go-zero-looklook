@@ -3,10 +3,11 @@
 - [I. Development environment](#i-development-environment)
   - [1. Project Profile](#1-project-profile)
   - [2. Use to technology stack](#2-use-to-technology-stack)
+        - [Tips : If you are not familiar with many of the technology stack here, do not be afraid, as long as you will mysql, redis can start these two middleware in the start of the project first run up the project, the other can slowly learn.](#tips--if-you-are-not-familiar-with-many-of-the-technology-stack-here-do-not-be-afraid-as-long-as-you-will-mysql-redis-can-start-these-two-middleware-in-the-start-of-the-project-first-run-up-the-project-the-other-can-slowly-learn)
   - [3. Project Architecture Diagram](#3-project-architecture-diagram)
   - [4. Business Architecture Diagram](#4-business-architecture-diagram)
   - [5. Project Environment Setup](#5-project-environment-setup)
-    - [5.1. clone code & update dependencies](#51-clone-code--update-dependencies)
+    - [5.1. clone code \& update dependencies](#51-clone-code--update-dependencies)
     - [5.2. The environment on which the project is launched](#52-the-environment-on-which-the-project-is-launched)
     - [5.3. Importing Data](#53-importing-data)
       - [5.3.1. Creating a kafka topic](#531-creating-a-kafka-topic)
@@ -62,50 +63,34 @@ The project directory structure is as follows:
 
 ## 2. Use to technology stack
 
+
+
+##### Tips : If you are not familiar with many of the technology stack here, do not be afraid, as long as you will mysql, redis can start these two middleware in the start of the project first run up the project, the other can slowly learn.
+
+
+
 - Kubernetes _(a.k.a k8s)_
-
 - go-zero
-
 - Nginx server (as a Gateway)
-
 - Filebeat
-
 - Kafka
-
 - Go-stash
-
 - Elasticsearch
-
 - Kibana
-
 - Prometheus
-
 - Grafana
-
 - Jaeger
-
 - Go-queue
-
 - Asynq
-
 - Asynqmon
-
 - DTM
-
 - docker
-
 - docker-compose
-
 - mysql
-
 - redis
-
 - modd
-
 - jenkins
-
 - gitlab
-
 - harbor
 
 ## 3. Project Architecture Diagram
@@ -177,13 +162,16 @@ $ update user set host='%' where user='root';
 $ FLUSH PRIVILEGES;
 ```
 
-Create database looklook_order && import deploy/sql/looklook_order.sql data
-
-Create database looklook_payment && import deploy/sql/looklook_payment.sql data
-
-Create database looklook_travel && import deploy/sql/looklook_travel.sql data
-
-Create database looklook_usercenter && import looklook_usercenter.sql data
+create databases and tables. 
+you need to connect to mysql outside the container, and type the following commands to create the databases and tables.
+``` shell
+$ Create database looklook_order; use looklook_order; source deploy/sql/looklook_order.sql;
+$ Create database looklook_payment; use looklook_payment; source looklook_payment.sql;
+$ Create database looklook_travel; use looklook_travel; source deploy/sql/looklook_travel.sql;
+$ Create database looklook_usercenter; use looklook_usercenter; source looklook_usercenter.sql;
+```
+Be sure that the sql should be exec after entering the corresponding database!
+Or you can use some MySQL UI client to achieve the above purpose. If you don't have a mysql clinet, you can also copy sql file into the container and 'source it'. 
 
 ### 5.4. View Service Environment
 
@@ -348,7 +336,7 @@ Then click the top left menu, find Analytics->click discover, the logs are displ
 
   2) In the kafka container internal command line using consumer.sh consumption looklook-log, another terminal command line with producer.sh to looklook-log send messages, if the consumer can not receive, indicating that the kafka problem, docker logs -f kafka to see what the problem
 
-​
+
 
 ## 7. Introduction of this project mirror
 
